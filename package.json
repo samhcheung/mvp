@@ -1,0 +1,26 @@
+{
+  "name": "mvp",
+  "version": "1.0.0",
+  "description": "League Improvement Tracker",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samhcheung/mvp.git"
+  },
+  "author": "Samuel Cheung",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/samhcheung/mvp/issues"
+  },
+  "homepage": "https://github.com/samhcheung/mvp#readme",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-route": "^1.5.8",
+    "express": "^4.14.0",
+    "node": "0.0.0"
+  }
+}

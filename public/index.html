@@ -1,0 +1,16 @@
+<html ng-app ="app">
+<head>
+  <script src="node_modules/angular/angular.js"></script>
+  <script src="app.js"></script>
+</head>
+ <body ng-controller="MyController">
+   <input ng-model="foo" value="bar">
+   <button ng-click="changeFoo()">{{something}}</button>
+   <div ng-repeat="match in matches">
+     <span>{{match.champion}}</span>
+     <span ng-click='showmatch(match.matchId)'>{{match.matchId}}</span>
+     <span>{{match.lane}}</span>
+     <span>{{match.queue}}</span>
+   </div>
+ </body>
+</html>
