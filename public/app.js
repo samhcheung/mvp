@@ -1,10 +1,11 @@
 var app = angular.module("app", []);
 
 app.factory('UserGames', function($http) {
-  var getAll = function () {
+  var getAll = function (username) {
       return $http({
         method: 'GET',
         url: '/api/users/matches',
+        params: {username: username}
       }).then(function (resp) {
         console.log(resp.data);
         return resp.data;
@@ -16,7 +17,7 @@ app.factory('UserGames', function($http) {
       url: '/api/match',
       params: {matchId: matchId},
     }).then(function (resp) {
-      console.log(resp.data);
+      //console.log(resp.data);
       return resp.data;
     });    
   }
@@ -32,25 +33,30 @@ app.factory('UserGames', function($http) {
 
 app.controller("MyController", function($scope, UserGames) {
   $scope.something = "button"
-  $scope.foo = "blah";
+  $scope.searchInput = "";
 
   $scope.changeFoo = function () {
-    $scope.matches = 'LOADING';
+    console.log($scope.searchInput);
 
-    UserGames.getAll().then(function(data) {
+    UserGames.getAll($scope.searchInput).then(function(data) {
       console.log(data.matches);
-      $scope.matches = data.matches;
+      $scope.matches = data.matches.slice(0,15);
     });
   }
 
   $scope.showmatch = function (matchId) {
     console.log(matchId);
     UserGames.getMatch(matchId).then(function(data) {
-      console.log(data.participantIdentities);
-      $scope.participantIds = $scope.participantIds || {};
-      $scope.participantIds[matchId] = data.participantIdentities;
+      // console.log(data.participantIdentities);
+      $scope.data = $scope.data || {};
+      $scope.data[matchId] = data;
     });
   }
 
 
 });
+
+app.controller("PlayerController", function($scope) {
+
+  console.log($scope.participantId);
+})
