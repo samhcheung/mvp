@@ -22,10 +22,11 @@ var MatchHistory = sequelize.define('matchhistories', {
   username: Sequelize.STRING,
   summonerid: Sequelize.INTEGER,
   region: Sequelize.STRING,
-  matchId: Sequelize.INTEGER,
+  matchId: Sequelize.STRING,
   champion: Sequelize.STRING,
   season: Sequelize.STRING,
-  lane: Sequelize.STRING
+  lane: Sequelize.STRING,
+  timestamp: Sequelize.STRING
 });
 
 
@@ -49,52 +50,76 @@ app.get('/api/users/matches', function (req, response) {
   console.log('get username', req.query.username);
   var matchhistory = {};
   if(req.query.username.length > 0) {
-    request('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/' 
-      + req.query.username + '?api_key=' + API, function (err, res, body) {
-        if(err) {console.log('Error on request getting user id', err); return;}
-        if(!err && res.statusCode != 400 && res.statusCode != 404) {
-          console.log(body);
-          parsedBody = JSON.parse(body);
-          var innerObj = parsedBody[req.query.username.toLowerCase()];
-          var id = innerObj.id;
-          Summoner.findOrCreate({
-            where : {username: req.query.username.toLowerCase(),
-            summonerid: id},
-            defaults: {username: req.query.username.toLowerCase(),
-            summonerid: id}
-          });
-          request('https://na.api.pvp.net/api/lol/na/v2.2/matchlist/by-summoner/' +
-            id +'?seasons=SEASON2016&api_key=' + API, function (err,res, body) {
-              //console.log(body, 'matchhistory');
-              console.log(res.statusCode,'statusCode');
-              matchhistory = JSON.parse(body);
-              for(var i = 0; i < matchhistory.matches.length; i++) {
-                MatchHistory.findOrCreate({
-                  where : {
-                    username: req.query.username.toLowerCase(),
-                    summonerid: id,
-                    region: matchhistory.matches[i].region,
-                    matchId: matchhistory.matches[i].matchId,
-                    champion: matchhistory.matches[i].champion,
-                    season: matchhistory.matches[i].season,
-                    lane: matchhistory.matches[i].lane
-                  },
-                  defaults: {
-                    username: req.query.username.toLowerCase(),
-                    summonerid: id,
-                    region: matchhistory.matches[i].region,
-                    matchId: matchhistory.matches[i].matchId,
-                    champion: matchhistory.matches[i].champion,
-                    season: matchhistory.matches[i].season,
-                    lane: matchhistory.matches[i].lane
-                  }
-                });
-              } // for loop
+    
 
-              response.json(matchhistory);
-            });
-        } // if !err
-      }); // request
+    MatchHistory.findAll({
+      where: {username: req.query.username.toLowerCase()},
+      raw: true
+    })
+    .then(function(found) {
+      if(found.length != 0) {
+        console.log('found it', found[0]);
+        response.json({matches: found});
+      } else {
+        request('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/' 
+          + req.query.username + '?api_key=' + API, function (err, res, body) {
+            if(err) {console.log('Error on request getting user id', err); return;}
+            if(!err && res.statusCode != 400 && res.statusCode != 404) {
+              console.log('GET REQUEST summonerid');
+              parsedBody = JSON.parse(body);
+              var innerObj = parsedBody[req.query.username.toLowerCase()];
+              var id = innerObj.id;
+              Summoner.findOrCreate({
+                where : {username: req.query.username.toLowerCase(),
+                summonerid: id},
+                defaults: {username: req.query.username.toLowerCase(),
+                summonerid: id}
+              });
+              request('https://na.api.pvp.net/api/lol/na/v2.2/matchlist/by-summoner/' +
+                id +'?seasons=SEASON2016&api_key=' + API, function (err,res, body) {
+                  //console.log(body, 'matchhistory');
+                  console.log(res.statusCode,'statusCode');
+                  console.log('GET REQUEST matchhistory');
+                  matchhistory = JSON.parse(body);
+                  //console.log( typeof matchhistory.matches, matchhistory.matches[5]);
+                  matchhistory.matches.forEach(function (item) {
+                    MatchHistory.findOrCreate({
+                      where : {
+                        username: req.query.username.toLowerCase(),
+                        summonerid: id,
+                        region: item.region,
+                        matchId: item.matchId,
+                        champion: item.champion,
+                        season: item.season,
+                        lane: item.lane,
+                        timestamp: item.timestamp
+                      },
+                      defaults: {
+                        username: req.query.username.toLowerCase(),
+                        summonerid: id,
+                        region: item.region,
+                        matchId: item.matchId,
+                        champion: item.champion,
+                        season: item.season,
+                        lane: item.lane,
+                        timestampe: item.timestamp
+                      }
+
+                    });
+
+
+                  })
+
+
+                  response.json(matchhistory);
+                });
+            } // if !err
+          }); // request
+
+        
+      } //else found
+    }); //then
+
 
   } else {
     response.json({"matches":[]})

@@ -5,8 +5,10 @@
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
  <body ng-controller="MyController">
-   <input ng-model="searchInput">
-   <button ng-click="changeFoo()">{{something}}</button>
+   <form>
+     <input ng-model="searchInput">
+     <input type="submit" ng-click="changeFoo()" value="{{something}}"></input>
+   </form>
    <div class="match" ng-repeat="match in matches">
      <span ng-click='showmatch(match.matchId); showDetails = !showDetails'>{{match.matchId}} Show Details</span><br>
      <div class="blue">

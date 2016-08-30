@@ -10,14 +10,15 @@ body {
   border-radius: 5px;
   border-color: black;
   margin: 10px;
-  height:90px ;
+  min-height: 20px;
+  overflow: hidden;
 
 }
 
 .blue {
   background-color: blue;
   display:block;
-  width:180px;
+  width:280px;
   float:left;
   color: white;
 
@@ -26,12 +27,12 @@ body {
 .red {
   background-color: red;
   display:block;
-  width:180px;
+  width:280px;
   float:left;  
   color: white;
 }
 
 .name {
   display:inline-block;
-  width:120px;
+  width:200px;
 }
