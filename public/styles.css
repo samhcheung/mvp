@@ -1,13 +1,18 @@
 body {
   color: blue;
+  text-align: center;
+
 }
 form {
   text-align: center;
 }
 
 .match {
-  display:block;
+  display:inline-block;
   padding-bottom: 25px;
+  text-align: center;
+  width: 1000px;
+  margin: 0 auto;
   border-style: solid;
   border-width: 1px 2.5px 2.5px 1px;
   border-radius: 5px;
@@ -22,19 +27,17 @@ form {
   border-color: blue;
   border-style: solid;
   border-width: 0px 2.5px 0px 0px;
-  display:block;
-  float:left;
+  display:inline-block;
   color: black;
-  left: 30%;
-
+  text-align: center;
 }
 
 .red {
   
-  display:block;
-  width:400px;
-  float:left;  
+  display:inline-block;
+  
   color: black;
+  text-align: center;
 }
 
 .name {
