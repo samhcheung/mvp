@@ -12,12 +12,12 @@
      <div class="blue">
        <div ng-controller="PlayerController" ng-show="showDetails" ng-repeat="participantId in data[match.matchId].participantIdentities" ng-if="$index<5">
         {{participantId.player.summonerName}}  
-        <div>{{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}</div>
+        : {{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}
        </div>
      </div>
      <div class="red">
        <div ng-controller="PlayerController" ng-show="showDetails" ng-repeat="participantId in data[match.matchId].participantIdentities" ng-if="$index>=5">
-        {{participantId.player.summonerName}}<div>{{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}</div>
+        {{participantId.player.summonerName}} : {{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}
        </div>
      </div>
    </div>

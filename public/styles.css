@@ -10,19 +10,23 @@ body {
   border-radius: 5px;
   border-color: black;
   margin: 10px;
-  
+  height:90px ;
+
 }
 
 .blue {
+  background-color: blue;
   display:block;
   width:180px;
-  height: auto;
-  max-height: 180px;
-  font-size: auto;
+  float:left;
+  color: white;
+
 }
 
 .red {
+  background-color: red;
   display:block;
   width:180px;
-  height:auto;
+  float:left;  
+  color: white;
 }
