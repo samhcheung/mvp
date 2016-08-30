@@ -9,10 +9,17 @@
    <button ng-click="changeFoo()">{{something}}</button>
    <div class="match" ng-repeat="match in matches">
      <span ng-click='showmatch(match.matchId); showDetails = !showDetails'>{{match.matchId}} Show Details</span><br>
-     <span ng-controller="PlayerController" ng-show="showDetails" ng-repeat="participantId in data[match.matchId].participantIdentities">
-      {{participantId.player.summonerName}} 
-      <span>{{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}</span><br>
-     </span>
+     <div class="blue">
+       <div ng-controller="PlayerController" ng-show="showDetails" ng-repeat="participantId in data[match.matchId].participantIdentities" ng-if="$index<5">
+        {{participantId.player.summonerName}}  
+        <div>{{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}</div>
+       </div>
+     </div>
+     <div class="red">
+       <div ng-controller="PlayerController" ng-show="showDetails" ng-repeat="participantId in data[match.matchId].participantIdentities" ng-if="$index>=5">
+        {{participantId.player.summonerName}}<div>{{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}</div>
+       </div>
+     </div>
    </div>
  </body>
 </html>
