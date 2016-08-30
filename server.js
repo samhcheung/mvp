@@ -1,7 +1,40 @@
 var express = require('express');
 var testdata = require('./testdata.json');
-//console.log(typeof testdata)
-//console.log(testdata.participants)
+var request = require('request');
+
+var Sequelize = require('sequelize');
+var sequelize = new Sequelize('league', 'root', 'hr', {
+  host: 'localhost',
+  dialect: 'mysql',
+  port: 3306,
+  logging: false
+});
+
+var Summoner = sequelize.define('summoners', {
+  username: Sequelize.STRING,
+  summonerid: Sequelize.INTEGER
+});
+
+var MatchHistory = sequelize.define('matchhistory', {
+  username: Sequelize.STRING,
+  summonerid: Sequelize.INTEGER,
+  region: Sequelize.STRING,
+  matchId: Sequelize.INTEGER,
+  champion: Sequelize.STRING,
+  season: Sequelize.STRING,
+  lane: Sequelize.STRING
+});
+
+
+// var Matches = sequelize.define('matches', {
+//   matchId: Sequelize.INTEGER,
+//   summonerid: Sequelize.INTEGER,
+//   region: Sequelize.STRING,
+//   matchId: Sequelize.INTEGER,
+//   champion: Sequelize.STRING,
+//   season: Sequelize.STRING,
+//   lane: Sequelize.STRING
+// });
 
 var app = express();
 
@@ -14,10 +47,33 @@ app.get('/api/users/matches', function (req, res) {
 });
 
 app.get('/api/match', function (req, res) {
-  res.json(testdata);
+  console.log(req.query);
+  if(req.query.matchId === '2278377977') {
+    res.json(testdata);
+  } else {
+    res.send();
+  }
 });
 
 app.listen(1337, function () {
-
   console.log('Listening on port 1337');
+Summoner.sync().then(function () {
+  Summoner.create({
+    username:'tayuku',
+    summonerid: 1566
+  })
+  .then(function() {
+    return Summoner.findAll({
+      where: {
+        username:'ta'
+      },
+      raw: true,
+    });
+  })
+  .then(function (found) {
+      console.log(found);
+    });
+  });
+
+
 })

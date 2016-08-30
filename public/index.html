@@ -2,15 +2,14 @@
 <head>
   <script src="node_modules/angular/angular.js"></script>
   <script src="app.js"></script>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
  <body ng-controller="MyController">
    <input ng-model="foo" value="bar">
    <button ng-click="changeFoo()">{{something}}</button>
-   <div ng-repeat="match in matches">
-     <span>{{match.champion}}</span>
-     <span ng-click='showmatch(match.matchId)'>{{match.matchId}}</span>
-     <span>{{match.lane}}</span>
-     <span>{{match.queue}}</span>
+   <div class="match" ng-repeat="match in matches">
+     <span ng-click='showmatch(match.matchId)'>{{match.matchId}}</span><br>
+     <span ng-repeat="participantId in participantIds[match.matchId]">{{participantId.player.summonerName}} </span>
    </div>
  </body>
 </html>
