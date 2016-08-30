@@ -7,19 +7,22 @@
  <body ng-controller="MyController">
    <form>
      <input ng-model="searchInput">
-     <input type="submit" ng-click="changeFoo()" value="{{something}}"></input>
+     <input type="submit" ng-click="changeFoo()" value="Search"></input>
    </form>
    <div class="match" ng-repeat="match in matches">
      <span ng-click='showmatch(match.matchId); showDetails = !showDetails'>{{match.matchId}} Show Details</span><br>
      <div class="blue">
        <div ng-controller="PlayerController" ng-show="showDetails" ng-repeat="participantId in data[match.matchId].participantIdentities" ng-if="$index<5">
-        <span class="name">{{participantId.player.summonerName}}</span>  
-        : {{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}
+        <span class="name">{{participantId.player.summonerName}}</span>
+        <span class="cs">{{data[match.matchId].participants[$index].stats.minionsKilled}} cs </span>
+        <span class="kda">{{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}</span>
        </div>
      </div>
      <div class="red">
        <div ng-controller="PlayerController" ng-show="showDetails" ng-repeat="participantId in data[match.matchId].participantIdentities" ng-if="$index>=5">
-        <span class="name">{{participantId.player.summonerName}}</span> : {{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}
+        <span class="name">{{participantId.player.summonerName}}</span>
+        <span class="cs">{{data[match.matchId].participants[$index].stats.minionsKilled}} cs </span>
+        <span class="kda">{{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}</span>
        </div>
      </div>
    </div>

@@ -39,7 +39,7 @@ app.controller("MyController", function($scope, UserGames) {
     console.log($scope.searchInput);
 
     UserGames.getAll($scope.searchInput).then(function(data) {
-      console.log(data.matches);
+      //console.log(data.matches);
       $scope.matches = data.matches.slice(0,15);
     });
   }
@@ -49,7 +49,7 @@ app.controller("MyController", function($scope, UserGames) {
     UserGames.getMatch(matchId).then(function(data) {
       // console.log(data.participantIdentities);
       $scope.data = $scope.data || {};
-      
+
       $scope.data[matchId] = data;
     });
   }
@@ -59,5 +59,5 @@ app.controller("MyController", function($scope, UserGames) {
 
 app.controller("PlayerController", function($scope) {
 
-  console.log($scope.participantId);
+  //console.log($scope.participantId);
 })

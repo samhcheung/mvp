@@ -1,8 +1,13 @@
 var express = require('express');
 var testdata = require('./testdata.json');
 var request = require('request');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/league');
+
 
 var API = 'RGAPI-972540E0-65C9-410F-B069-EB5CDE1D616B';
+
+var Matches = mongoose.model('Matches', { matchId: String, match: Object });
 
 
 var Sequelize = require('sequelize');
@@ -30,15 +35,6 @@ var MatchHistory = sequelize.define('matchhistories', {
 });
 
 
-var Matches = sequelize.define('matches', {
-  matchId: Sequelize.INTEGER,
-  summonerid: Sequelize.INTEGER,
-  region: Sequelize.STRING,
-  matchId: Sequelize.INTEGER,
-  champion: Sequelize.STRING,
-  season: Sequelize.STRING,
-  lane: Sequelize.STRING
-});
 
 var app = express();
 
@@ -58,7 +54,7 @@ app.get('/api/users/matches', function (req, response) {
     })
     .then(function(found) {
       if(found.length != 0) {
-        console.log('found it', found[0]);
+        console.log('found the specific match', found[0]);
         response.json({matches: found});
       } else {
         request('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/' 
@@ -79,6 +75,7 @@ app.get('/api/users/matches', function (req, response) {
                 id +'?seasons=SEASON2016&api_key=' + API, function (err,res, body) {
                   //console.log(body, 'matchhistory');
                   console.log(res.statusCode,'statusCode');
+
                   console.log('GET REQUEST matchhistory');
                   matchhistory = JSON.parse(body);
                   //console.log( typeof matchhistory.matches, matchhistory.matches[5]);
@@ -129,30 +126,43 @@ app.get('/api/users/matches', function (req, response) {
 
 app.get('/api/match', function (req, response) {
   console.log(req.query);
-  // if(req.query.matchId === '2278377977') {
-  //   res.json(testdata);
-  // } else {
-  //   res.send();
-  // }
-  request('https://na.api.pvp.net/api/lol/na/v2.2/match/' +
-    req.query.matchId + '?api_key=' + API, function(err,res,body) {
-      var parsedmatch = JSON.parse(body);
-      response.json(parsedmatch);
-    });
+  Matches.find({matchId: '' + req.query.matchId}, function(err,data) {
+    if(data.length > 0) {
+      console.log('Found stored match', req.query.matchId);
+      //console.log(JSON.parse(data[0].match));
+      response.json(data[0].match);
+    } else {
+    request('https://na.api.pvp.net/api/lol/na/v2.2/match/' +
+      req.query.matchId + '?api_key=' + API, function(err,res,body) {
+        //console.log('Fetching match', body);
+        var parsedmatch = JSON.parse(body);
+        var match = new Matches({ matchId: req.query.matchId, match: parsedmatch })
+        match.save().then(function() {
+          console.log('Saved fetched match in db')
+          response.json(parsedmatch);
+        });
+      });
+      
+    }
+  });
 
 });
 
 app.listen(1337, function () {
   console.log('Listening on port 1337');
+  // var match = new Matches({ matchId: 12345, match: testdata })
+  // match.save();
+
+  // Matches.find({matchId: "12345"}, function (err, data) {
+  //   console.log(data);
+  // });
+
   Summoner.sync()
   .then(function () {
     console.log('Summoner table ready');
     MatchHistory.sync()
     .then(function () {
       console.log('MatchHistory table ready');
-      Matches.sync().then(function() {
-        console.log('Matches table ready');
-      });
     })
   });
 

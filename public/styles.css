@@ -1,6 +1,9 @@
 body {
   color: blue;
 }
+form {
+  text-align: center;
+}
 
 .match {
   display:block;
@@ -16,23 +19,36 @@ body {
 }
 
 .blue {
-  background-color: blue;
+  border-color: blue;
+  border-style: solid;
+  border-width: 0px 2.5px 0px 0px;
   display:block;
-  width:280px;
   float:left;
-  color: white;
+  color: black;
+  left: 30%;
 
 }
 
 .red {
-  background-color: red;
+  
   display:block;
-  width:280px;
+  width:400px;
   float:left;  
-  color: white;
+  color: black;
 }
 
 .name {
   display:inline-block;
   width:200px;
+  padding: 5px;
+}
+
+.cs {
+  display:inline-block;
+  width:50px;
+}
+
+.kda {
+  display:inline-block;
+  width:100px;
 }
