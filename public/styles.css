@@ -30,3 +30,8 @@ body {
   float:left;  
   color: white;
 }
+
+.name {
+  display:inline-block;
+  width:120px;
+}

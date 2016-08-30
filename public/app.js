@@ -49,6 +49,7 @@ app.controller("MyController", function($scope, UserGames) {
     UserGames.getMatch(matchId).then(function(data) {
       // console.log(data.participantIdentities);
       $scope.data = $scope.data || {};
+      
       $scope.data[matchId] = data;
     });
   }

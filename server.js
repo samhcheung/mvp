@@ -66,6 +66,7 @@ app.get('/api/users/matches', function (req, response) {
           request('https://na.api.pvp.net/api/lol/na/v2.2/matchlist/by-summoner/' +
             id +'?seasons=SEASON2016&api_key=' + API, function (err,res, body) {
               //console.log(body, 'matchhistory');
+              console.log(res.statusCode,'statusCode');
               matchhistory = JSON.parse(body);
               for(var i = 0; i < matchhistory.matches.length; i++) {
                 MatchHistory.findOrCreate({

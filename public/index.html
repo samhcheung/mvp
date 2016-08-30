@@ -11,13 +11,13 @@
      <span ng-click='showmatch(match.matchId); showDetails = !showDetails'>{{match.matchId}} Show Details</span><br>
      <div class="blue">
        <div ng-controller="PlayerController" ng-show="showDetails" ng-repeat="participantId in data[match.matchId].participantIdentities" ng-if="$index<5">
-        {{participantId.player.summonerName}}  
+        <span class="name">{{participantId.player.summonerName}}</span>  
         : {{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}
        </div>
      </div>
      <div class="red">
        <div ng-controller="PlayerController" ng-show="showDetails" ng-repeat="participantId in data[match.matchId].participantIdentities" ng-if="$index>=5">
-        {{participantId.player.summonerName}} : {{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}
+        <span class="name">{{participantId.player.summonerName}}</span> : {{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}
        </div>
      </div>
    </div>
