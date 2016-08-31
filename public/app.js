@@ -40,7 +40,7 @@ app.controller("MyController", function($scope, UserGames) {
 
     UserGames.getAll($scope.searchInput).then(function(data) {
       //console.log(data.matches);
-      $scope.matches = data.matches.slice(0,15);
+      $scope.matches = data.matches.slice(0,10);
     });
   }
 
@@ -51,6 +51,7 @@ app.controller("MyController", function($scope, UserGames) {
       $scope.data = $scope.data || {};
 
       $scope.data[matchId] = data;
+
     });
   }
 

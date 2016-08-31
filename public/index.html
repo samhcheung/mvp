@@ -3,17 +3,21 @@
   <script src="node_modules/angular/angular.js"></script>
   <script src="app.js"></script>
   <link rel="stylesheet" type="text/css" href="styles.css">
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
 </head>
-
+ 
  <body ng-controller="MyController">
+ <h1>yet another league of legends stats site</h1>
    <form>
      <input ng-model="searchInput">
      <input type="submit" ng-click="changeFoo()" value="Search"></input>
    </form>
    <div class="match" ng-repeat="match in matches">
-     <span ng-click='showmatch(match.matchId); showDetails = !showDetails'>Match Id :{{match.matchId}} <br>Show Details</span><br>
-     <div class="blue">
+     <span ng-click='showmatch(match.matchId); showDetails = !showDetails'>Match Id :{{match.matchId}}<br>Show Details</span><br>
+     <div>
+     </div><div class="blue">
        <div ng-controller="PlayerController" ng-show="showDetails" ng-repeat="participantId in data[match.matchId].participantIdentities" ng-if="$index<5">
+
         <span class="name">{{participantId.player.summonerName}}</span>
         <span class="cs">{{data[match.matchId].participants[$index].stats.minionsKilled}} cs </span>
         <span class="kda">{{data[match.matchId].participants[$index].stats.kills}}/{{data[match.matchId].participants[$index].stats.deaths}}/{{data[match.matchId].participants[$index].stats.assists}}</span>
